@@ -16,8 +16,12 @@ Including another URLconf
 from django.conf.urls import url, include
 from django.contrib import admin
 from django.urls import path
+from django.utils.translation import gettext as _
 
 urlpatterns = [
     url(r"^", include("jobs.urls")),
-    path('admin/', admin.site.urls),
+    path('grappelli/', include('grappelli.urls')),
+    path('admin/', admin.site.urls),  # admin site
 ]
+
+admin.site.site_header = _('xx招聘管理系统')
