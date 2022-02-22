@@ -126,6 +126,11 @@ class Candidate(models.Model):
         verbose_name = '应聘者'
         # 复数形式 plural
         verbose_name_plural = '应聘者'
+        # 自定义权限控制
+        permissions = [
+            ("export", "Can export candidate list"),
+            ("notify", "notify interviewer for candidate review"),
+        ]
 
     # python 3 直接定义__str__()方法，把对象转换成字符串
     def __str__(self):
