@@ -8,6 +8,7 @@ from django.db.models import Q
 from django.http import HttpResponse
 
 from interview.candidate_fieldset import default_fieldsets, default_fieldsets_first, default_fieldsets_second
+from interview.dingtalk import send
 from interview.models import Candidate
 
 # Register your models here.
@@ -20,6 +21,7 @@ exportable_fields = ('username', 'city', 'phone', 'bachelor_school', 'degree', '
 
 
 # 定义actions里面的自定义功能
+# 导出功能
 def export_model_as_csv(modeladmin, request, queryset):
     response = HttpResponse(content_type="text/csv")
     response.write(codecs.BOM_UTF8)
@@ -53,14 +55,25 @@ export_model_as_csv.short_description = "以CSV格式导出应聘者信息"
 export_model_as_csv.allowed_permissions = ('export',)
 
 
-# 定义actions里面自定义功能按钮的权限，比如导出数据只让hr操作，不让面试官操作
+# 通知功能
+def notify_interviewer(modeladmin, request, queryset):
+    candidates = ""
+    interviewers = ""
+    for obj in queryset:
+        candidates = obj.username + ";" + candidates
+        interviewers = obj.first_interviewer_user.username + ";" + interviewers
+    send("候选人 %s 进入面试环节，亲爱的面试官，亲准备好面试：%s" % (candidates, interviewers))
+
+
+notify_interviewer.short_description = "通知一面面试官"
 
 
 class CandidateAdmin(admin.ModelAdmin):
     # 设置行动里面的字段(功能)
-    actions = [
+    actions = (
         export_model_as_csv,
-    ]
+        notify_interviewer,
+    )
 
     def has_export_permission(self, request):
         opts = self.opts
