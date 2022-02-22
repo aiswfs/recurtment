@@ -1,9 +1,14 @@
 from django.conf.urls import url
+
 from jobs import views
 
 urlpatterns = [
+    # 职位列表
     url(r"^joblist/", views.joblist, name="joblist"),
 
-    # 传递参数 job_id
+    # 职位详情 传递参数 job_id
     url(r"^job/(?P<job_id>\d+)/$", views.detail, name="detail"),
+
+    # 首页自动跳转到 职位列表
+    url(r"^$", views.joblist, name="name"),
 ]

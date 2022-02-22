@@ -22,6 +22,8 @@ urlpatterns = [
     url(r"^", include("jobs.urls")),
     path('grappelli/', include('grappelli.urls')),
     path('admin/', admin.site.urls),  # admin site
+    # 注册url registration 的包提供了accounts目录下的login，logout等功能 就无需在编写代码
+    url(r'^accounts/', include('registration.backends.simple.urls'))
 ]
 
 admin.site.site_header = _('xx招聘管理系统')

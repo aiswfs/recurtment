@@ -26,12 +26,16 @@ SECRET_KEY = 'django-insecure-+t-lk5m0*2vqsvt9^5!r_q@(8#zih^ge^wskfrg9w)$6bnp#m6
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
+
+LOGIN_REDIRECT_URL = '/'
+SIMPLE_BACKEND_REDIRECT_URL = '/accounts/login'
 
 # Application definition
 
 INSTALLED_APPS = [
     'grappelli',  # 主题需要放在admin前面
+    'registration',  # 登录注册功能的 包
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
